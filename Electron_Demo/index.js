@@ -2,7 +2,11 @@
 const fs = require('fs');
 
 var notes = [];
+
 var htmlResult = document.getElementById('result');
+
+var submitBtn = document.getElementById('submitBtn');
+submitBtn.addEventListener('click', main);
 
 function loadData() {
     var fileContent = fs.readFileSync('./data.json');
