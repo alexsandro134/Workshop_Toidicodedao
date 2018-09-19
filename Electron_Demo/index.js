@@ -1,37 +1,42 @@
-const readLineSync = require('readline-sync');
+// const readLineSync = require('readline-sync');
 const fs = require('fs');
 
 var notes = [];
+var htmlResult = document.getElementById('result');
 
 function loadData() {
-    var fileContent = fs.readFileSync('./Electron_Demo/data.json');
+    var fileContent = fs.readFileSync('./data.json');
 
     // get JSON string and convert to object
     notes = JSON.parse(fileContent);
 }
 
 function showMenu() {
+    var choice = document.getElementById('choice').value;
     console.log('1. Show all notes');
     console.log('2. Add new note');
     console.log('3. Edit your note');
     console.log('4. Delete note');
-    var choice = document.getElementById('choice').value;
 
     switch (choice) {
         case '1':
             showAllNotes();
+            choice.value = '';
             showMenu();
             break;
         case '2':
             addNewNote();
+            choice.value = '';
             showMenu();
             break;
         case '3':
             editNote();
+            choice.value = '';
             showMenu();
             break;
         case '4':
             deleteNote();
+            choice.value = '';
             showMenu();
             break;
         default:
@@ -47,14 +52,10 @@ function main() {
 }
 
 function showAllNotes() {
-    // notes.map(function (note) {
-    //     console.log(note.title + ' | ' + note.content);
-    // });
-    console.log('\n');
-    for (var note of notes) {
-        console.log(note.title + ' | ' + note.content);
-    }
-    console.log('\n');
+    var list = notes.map(function(note) {
+        return '<li>' + note.title + ' | ' + note.content + '</li>';
+    });
+    htmlResult.innerHTML = list.join('');
 }
 
 function addNewNote() {

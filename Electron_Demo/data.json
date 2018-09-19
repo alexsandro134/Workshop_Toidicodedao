@@ -1,4 +1,10 @@
 [{
     "title": "Working Note",
     "content": "SEAB Project"
+}, {
+    "title": "Must do Note",
+    "content": "Express JS"
+}, {
+    "title": "Exercise",
+    "content": "Cucumber"
 }]
