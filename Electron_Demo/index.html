@@ -15,7 +15,19 @@
     </ol>
     <input type="text" name="choice" id="choice" placeholder="Please input your choice">
     <button id="submitBtn">Submit</button>
-    <div id="result">Result of actions</div>
+    <div id="result"></div>
+    <br>
+    <div id="addInput" style="display: none;" >
+        <input type="text" id="title" placeholder="Please input your title">
+        <input type="text" id="content" placeholder="Please input your content">
+        <button id="addBtn">Add new note</button>
+    </div>
+    <div id="editInput" style="display: none;" >
+        <input type="text" id="editTitle" placeholder="Please input your title">
+        <input type="text" id="editContent">
+        <button id="editBtn">Confirm Edit</button>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="./index.js"></script>
 </body>
 

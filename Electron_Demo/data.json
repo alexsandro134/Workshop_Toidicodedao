@@ -1,10 +1,24 @@
-[{
-    "title": "Working Note",
-    "content": "SEAB Project"
-}, {
-    "title": "Must do Note",
-    "content": "Express JS"
-}, {
-    "title": "Exercise",
-    "content": "Cucumber"
-}]
+{
+  "notes": [
+    {
+      "id": 1,
+      "title": "Working Note",
+      "content": "SEAB Project"
+    },
+    {
+      "id": 2,
+      "title": "Must do Note",
+      "content": "Express JS"
+    },
+    {
+      "id": 3,
+      "title": "Exercise",
+      "content": "Cucumber"
+    },
+    {
+      "title": "AddNote",
+      "content": "NewNote",
+      "id": 4
+    }
+  ]
+}

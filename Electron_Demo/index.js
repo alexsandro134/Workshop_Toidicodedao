@@ -1,86 +1,76 @@
-// const readLineSync = require('readline-sync');
-const fs = require('fs');
-
-var notes = [];
-
 var htmlResult = document.getElementById('result');
-
 var submitBtn = document.getElementById('submitBtn');
+var divAddNote = document.getElementById('addInput');
+var divEditNote = document.getElementById('editInput');
+var addBtn = document.getElementById('addBtn');
+var editBtn = document.getElementById('editBtn');
+
 submitBtn.addEventListener('click', main);
+addBtn.addEventListener('click', addNewNote);
+
+var url = 'http://localhost:9081/notes';
 
 function loadData() {
-    var fileContent = fs.readFileSync('./data.json');
-
-    // get JSON string and convert to object
-    notes = JSON.parse(fileContent);
+    axios.get(url).then(function (res) {
+        var notes = res.data;
+        showAllNotes(notes);
+    });
 }
 
 function showMenu() {
     var choice = document.getElementById('choice').value;
-    console.log('1. Show all notes');
-    console.log('2. Add new note');
-    console.log('3. Edit your note');
-    console.log('4. Delete note');
 
     switch (choice) {
         case '1':
-            showAllNotes();
+            loadData();
             choice.value = '';
-            showMenu();
             break;
         case '2':
-            addNewNote();
+            divAddNote.style.display = 'block';
             choice.value = '';
-            showMenu();
             break;
         case '3':
-            editNote();
+            divEditNote.style.display = 'block';
             choice.value = '';
-            showMenu();
             break;
         case '4':
             deleteNote();
             choice.value = '';
-            showMenu();
             break;
         default:
             console.log('Your choice is not correct!!!');
-            showMenu();
             break;
     }
 }
 
 function main() {
-    loadData();
     showMenu();
 }
 
-function showAllNotes() {
-    var list = notes.map(function(note) {
+function showAllNotes(notes) {
+    var list = notes.map(function (note) {
         return '<li>' + note.title + ' | ' + note.content + '</li>';
     });
     htmlResult.innerHTML = list.join('');
 }
 
 function addNewNote() {
-    let noteTitle = readLineSync.question('Please input your title: ');
-    let noteContent = readLineSync.question('Please input your content: ');
+    let noteTitle = document.getElementById('title').value;
+    let noteContent = document.getElementById('content').value;
     let noteObject = {
-        title: noteTitle,
-        content: noteContent
+        "title": noteTitle,
+        "content": noteContent
     };
 
-    notes.push(noteObject);
-    save();
+    axios.post(url, noteObject);
 }
 
 function editNote() {
-    let noteEdit = readLineSync.question('Input your title note you want to edit: ');
-    let contentEdit = readLineSync.question('Input your content note you want to edit: ');
+    let noteEdit = document.getElementById('editTitle').value;
+    let contentEdit = document.getElementById('editContent').value;
     for (var note of notes) {
         if (note.title == noteEdit) {
             note.content = contentEdit;
-            save();
         }
     }
 }
@@ -89,14 +79,6 @@ function deleteNote() {
     let noteDelete = readLineSync.question('Input your title note you want to delete: ');
     let index = notes.findIndex(note => note.title == noteDelete);
     notes.splice(index, 1);
-    save();
-}
-
-function save() {
-    var content = JSON.stringify(notes)
-    fs.writeFileSync('./data.json', content, {
-        encoding: 'utf8'
-    });
 }
 
 main();
