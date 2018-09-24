@@ -25,8 +25,8 @@ const puppeteer = require('puppeteer');
     function displayListArticles(array) {
         for (let index = 3; index < array.length; index++) {
             console.log('===============================')
-            let value = articles[index].title;
-            let id = articles[index].id;
+            let value = array[index].title;
+            let id = array[index].id;
             console.log(value.toString().substring(0, value.indexOf("(")));
             console.log(id);
         }
