@@ -1,44 +1,24 @@
 {
   "notes": [
     {
-      "id": 1,
-      "title": "Working Note",
-      "content": "SEAB Project"
+      "title": "SS",
+      "content": "Func",
+      "id": 1
     },
     {
-      "id": 2,
-      "title": "Must do Note",
-      "content": "Express JS"
+      "title": "FS",
+      "content": "Bu9",
+      "id": 2
     },
     {
-      "id": 3,
       "title": "Exercise",
-      "content": "Cucumber"
+      "content": "Cucumber Edit",
+      "id": 3
     },
     {
-      "title": "AddNote",
-      "content": "NewNote",
+      "title": "NT",
+      "content": "Janison",
       "id": 4
-    },
-    {
-      "title": "",
-      "content": "",
-      "id": 5
-    },
-    {
-      "title": "1",
-      "content": "2",
-      "id": 6
-    },
-    {
-      "title": "",
-      "content": "",
-      "id": 7
-    },
-    {
-      "title": "Tai_Note",
-      "content": "Note_Tai",
-      "id": 8
     }
   ]
 }
