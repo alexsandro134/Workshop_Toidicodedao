@@ -10,41 +10,10 @@ addBtn.addEventListener('click', addNewNote);
 
 var url = 'http://localhost:9081/notes';
 
+var dataNote = [];
+
 function loadData() {
-    axios.get(url).then(function (res) {
-        var notes = res.data;
-        showAllNotes(notes);
-    });
-}
-
-function showMenu() {
-    var choice = document.getElementById('choice').value;
-
-    switch (choice) {
-        case '1':
-            loadData();
-            choice.value = '';
-            break;
-        case '2':
-            divAddNote.style.display = 'block';
-            choice.value = '';
-            break;
-        case '3':
-            divEditNote.style.display = 'block';
-            choice.value = '';
-            break;
-        case '4':
-            deleteNote();
-            choice.value = '';
-            break;
-        default:
-            console.log('Your choice is not correct!!!');
-            break;
-    }
-}
-
-function main() {
-    showMenu();
+    return axios.get(url);
 }
 
 function showAllNotes(notes) {
@@ -55,30 +24,55 @@ function showAllNotes(notes) {
 }
 
 function addNewNote() {
+    divAddNote.style.display = 'block';
     let noteTitle = document.getElementById('title').value;
     let noteContent = document.getElementById('content').value;
     let noteObject = {
         "title": noteTitle,
         "content": noteContent
     };
-
     axios.post(url, noteObject);
 }
 
-function editNote() {
+function editNote(notes) {
     let noteEdit = document.getElementById('editTitle').value;
     let contentEdit = document.getElementById('editContent').value;
-    for (var note of notes) {
-        if (note.title == noteEdit) {
-            note.content = contentEdit;
+    var updateItem = {
+        content: contentEdit
+    };
+    notes.filter(function (item) {
+        if (item.title === noteEdit) {
+            axios.put(url, updateItem);
         }
-    }
+    });
 }
 
-function deleteNote() {
-    let noteDelete = readLineSync.question('Input your title note you want to delete: ');
-    let index = notes.findIndex(note => note.title == noteDelete);
-    notes.splice(index, 1);
+async function main() {
+    dataNote = await loadData();
+    var choice = document.getElementById('choice').value;
+    switch (choice) {
+        case '1':
+            showAllNotes(dataNote.data);
+            choice.value = '';
+            break;
+        case '2':
+            addNewNote();
+            choice.value = '';
+            break;
+        case '3':
+            divEditNote.style.display = 'block';
+            editBtn.addEventListener('click', editNote(dataNote.data));
+            // editNote(dataNote.data);
+            choice.value = '';
+            break;
+        case '4':
+            // deleteNote();
+            choice.value = '';
+            break;
+        default:
+            console.log('Your choice is not correct!!!');
+            break;
+    }
 }
 
 main();
