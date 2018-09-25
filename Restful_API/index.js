@@ -6,16 +6,11 @@ var adapter = new FileSync('db.json')
 
 db = low(adapter);
 
-db.defaults({
-        articles: []
-    })
-    .write()
-
-
 async function main() {
-    var articles = await crawlData();
-    db.get('articles').push(articles).write();
-    displayListArticles(articles);
+    db.defaults({ articles: [] }).write();
+    var data = await crawlData();
+    db.get('articles').push(data).write();
+    displayListArticles(data);
     // await browser.close();
 }
 
@@ -53,7 +48,7 @@ function displayListArticles(array) {
     }
 }
 
-cron.schedule('55 * * * *', function () {
+cron.schedule('52 * * * *', function () {
     console.log('Running a task every 60 minutes!');
     main();
 });
