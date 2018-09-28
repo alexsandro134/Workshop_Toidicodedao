@@ -12,11 +12,8 @@ db.defaults({
 
 async function main() {
     var data = [];
-
     db.set('articles', data).write();
-
     data = await crawlData();
-
     db.get('articles').push(data).write();
     displayListArticles(data);
     // await browser.close();
