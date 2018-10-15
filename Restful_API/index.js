@@ -11,30 +11,29 @@ db.defaults({
 }).write();
 
 async function main() {
+    var vnexpress_sport_url = 'https://thethao.vnexpress.net/';
     var data = [];
-    db.set('articles', data).write();
-    data = await crawlData();
+    data = await crawlData(vnexpress_sport_url);
     db.get('articles').push(data).write();
     displayListArticles(data);
     // await browser.close();
 }
 
-async function crawlData() {
+async function crawlData(url) {
     var data;
     var browser = await puppeteer.launch();
     console.log('Open browser');
 
     var page = await browser.newPage();
-    var voz_f33_url = 'https://forums.voz.vn/forumdisplay.php?f=33';
 
-    await page.goto(voz_f33_url);
-    console.log('Loading page.....');
+    await page.goto(url);
+    console.log('Loading ' + url + 'page.....');
 
     return data = await page.evaluate(() => {
-        let titleLinks = document.querySelectorAll('#threadbits_forum_33 td.alt1[title]');
-        titleLinks = [...titleLinks];
+        let sportLinks = getElementByXpath('//section[@id="news_home"]//h3/a[not(@class="icon_commend")]');
+        sportLinks = [...sportLinks];
 
-        let articles = titleLinks.map(link => ({
+        let articles = sportLinks.map(link => ({
             title: link.innerText,
             id: link.getAttribute('id')
         }));
@@ -53,7 +52,11 @@ function displayListArticles(array) {
     }
 }
 
+function getElementByXpath(path) {
+    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+}
+
 cron.schedule('* * * * *', function () {
-    console.log('Running a task every 60 minutes!');
+    console.log('Running a task every minutes!');
     main();
 });
